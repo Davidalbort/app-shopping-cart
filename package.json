@@ -7,7 +7,8 @@
     "test": "jest a",
     "test:watch": "jest a --watch",
     "dev": "vite",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prettier:check": "prettier --write"
   },
   "author": "roger david alba ortega (rogerdavidalbaortega@gmail.com)",
   "license": "ISC",
@@ -27,6 +28,7 @@
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
     "eslint": "^8.37.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
     "husky": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
