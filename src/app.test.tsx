@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react"
+import fireEvent from "@testing-library/user-event"
 import { App } from "./App"
 
 describe("<App />", () => {
@@ -16,5 +17,12 @@ describe("<App />", () => {
     products.forEach((product) => {
       expect(product).toBeInTheDocument()
     })
+  })
+  test("Should filter products by category", async () => {
+    render(<App />)
+    const filterCategory = screen.getByLabelText("Category")
+    await fireEvent.selectOptions(filterCategory, "smartphones")
+    const productSmartPhones = screen.getAllByRole("listitem")
+    expect(productSmartPhones.length).toBeGreaterThan(4)
   })
 })
