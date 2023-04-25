@@ -1,0 +1,21 @@
+.app__container {
+  background: rgb(33, 31, 31);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+  height: 100%;
+}
+
+.app__header {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 3rem;
+  align-items: center;
+}
+
+.app__title {
+  font-size: 3rem;
+  color: azure;
+  font-weight: 900;
+}

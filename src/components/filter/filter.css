@@ -1,0 +1,19 @@
+.filter {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: space-center;
+  gap: 2rem;
+}
+
+.filter__select {
+  border-radius: 1rem;
+}
+
+.color-white {
+  color: var(--color-text);
+}
+
+.font-m {
+  font-size: var(--fs-m);
+}

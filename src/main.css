@@ -1,0 +1,15 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+:root {
+  --fs-l: 3rem;
+  --fs-m: 2rem;
+  --fs-s: 1rem;
+  --c-azure: #f1f7fc;
+  --fs-title-product: var(--fs-m);
+  --color-text: var(--c-azure);
+}
