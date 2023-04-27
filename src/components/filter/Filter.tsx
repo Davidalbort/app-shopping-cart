@@ -1,17 +1,19 @@
-import { Filters } from "../../App"
+import { useFilter } from "../../hooks/useFilter"
 import "./filter.css"
 
-interface FilterProps {
-  handleChangeCategory(event: React.ChangeEvent<HTMLSelectElement>): void
-  handleChangePrice(even: React.ChangeEvent<HTMLInputElement>): void
-  filters: Filters
-}
-
-export function Filter({
-  handleChangeCategory,
-  handleChangePrice,
-  filters,
-}: FilterProps) {
+export function Filter() {
+  const { filters, updateCategory, updatePrice } = useFilter()
+  const handleChangeCategory = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const newCategory = event.target.value
+    updateCategory(newCategory)
+  }
+  const handleChangePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newPrice = parseInt(event.target.value)
+    updatePrice(newPrice)
+  }
+  console.log(filters)
   return (
     <section className="filter">
       <label htmlFor="price" className="font-m color-white">
@@ -21,11 +23,11 @@ export function Filter({
         type="range"
         min="0"
         max="1000"
-        value={filters.price}
+        value={filters?.price}
         onChange={handleChangePrice}
         id="price"
       />
-      <span className="filter__value">{"$" + filters.price}</span>
+      <span className="filter__value">{"$" + filters?.price}</span>
       <label htmlFor="category" className="font-m color-white">
         Category
       </label>

@@ -4,7 +4,7 @@ Ecommerce
 ✅Displays a list of products coming from a JSON
 ✅Add a filter by category
 ✅Add a filter by price
-Make use of useContext to avoid passing unnecessary props.
+✅Make use of useContext to avoid passing unnecessary props.
 
 Cart:
 

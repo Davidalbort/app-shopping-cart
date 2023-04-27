@@ -4,10 +4,10 @@ import { Products } from "./Product"
 describe("<Cart />", () => {
   afterEach(() => cleanup)
   test("Should render", () => {
-    render(<Products Products={[]} />)
+    render(<Products products={[]} />)
   })
   test("Should display image of product with attribute src, title", () => {
-    render(<Products Products={mockProducts} />)
+    render(<Products products={mockProducts} />)
     const images = screen.getAllByRole("img")
     images.forEach((image, index) => {
       const expectedAttributeSrc = mockProducts[index].image
@@ -17,7 +17,7 @@ describe("<Cart />", () => {
     })
   })
   test("Should display title of product and price", () => {
-    render(<Products Products={mockProducts} />)
+    render(<Products products={mockProducts} />)
     const titles = screen.getAllByRole("heading")
     const prices = screen.getAllByRole("textbox")
 
