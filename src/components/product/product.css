@@ -32,3 +32,9 @@
 .color-azure {
   color: var(--color-text);
 }
+
+.product__add {
+  background: rgb(0, 147, 205);
+  padding: 0.5rem;
+  border-radius: 1rem;
+}

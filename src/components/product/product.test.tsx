@@ -1,13 +1,16 @@
 import { cleanup, render, screen } from "@testing-library/react"
+import fireEvent from "@testing-library/user-event"
 import { Products } from "./Product"
 
 describe("<Cart />", () => {
   afterEach(() => cleanup)
   test("Should render", () => {
-    render(<Products products={[]} />)
+    const addToCart = jest.fn()
+    render(<Products products={mockProducts} handleAddToCart={addToCart} />)
   })
   test("Should display image of product with attribute src, title", () => {
-    render(<Products products={mockProducts} />)
+    const addToCart = jest.fn()
+    render(<Products products={mockProducts} handleAddToCart={addToCart} />)
     const images = screen.getAllByRole("img")
     images.forEach((image, index) => {
       const expectedAttributeSrc = mockProducts[index].image
@@ -17,7 +20,8 @@ describe("<Cart />", () => {
     })
   })
   test("Should display title of product and price", () => {
-    render(<Products products={mockProducts} />)
+    const addToCart = jest.fn()
+    render(<Products products={mockProducts} handleAddToCart={addToCart} />)
     const titles = screen.getAllByRole("heading")
     const prices = screen.getAllByRole("textbox")
 
@@ -28,6 +32,16 @@ describe("<Cart />", () => {
     prices.forEach((price, index) => {
       const expectPrice = String(mockProducts[index].price)
       expect(price.textContent).toEqual(expectPrice)
+    })
+  })
+  test("Should display button by add to cart and when clicked should call addToCart", async () => {
+    const addToCart = jest.fn()
+    render(<Products products={mockProducts} handleAddToCart={addToCart} />)
+    const buttonAddToCart = screen.getAllByTestId("add-to-cart")
+    buttonAddToCart.forEach(async (button) => {
+      await fireEvent.click(button)
+      expect(button).toBeInTheDocument()
+      expect(addToCart).toHaveBeenCalledTimes(1)
     })
   })
 })

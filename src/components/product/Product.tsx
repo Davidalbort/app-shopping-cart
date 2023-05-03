@@ -1,11 +1,13 @@
 import { Product } from "../../constants/type.td"
 import "./product.css"
+import { AddToCart } from "../icons/Icons"
 
 interface ProductsProps {
   products: Product[]
+  handleAddToCart(product: Product): void
 }
 
-export function Products({ products }: ProductsProps) {
+export function Products({ products, handleAddToCart }: ProductsProps) {
   return (
     <ul className="product__list">
       {products ? (
@@ -20,6 +22,13 @@ export function Products({ products }: ProductsProps) {
             <span role="textbox" className="font-m color-azure">
               {product.price}
             </span>
+            <button
+              onClick={() => handleAddToCart(product)}
+              className="product__add"
+              data-testid="add-to-cart"
+            >
+              <AddToCart />
+            </button>
           </li>
         ))
       ) : (
