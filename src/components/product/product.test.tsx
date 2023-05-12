@@ -2,15 +2,24 @@ import { cleanup, render, screen } from "@testing-library/react"
 import fireEvent from "@testing-library/user-event"
 import { Products } from "./Product"
 
+//mock method like a function of useCart hook
+const mockAddProduct = jest.fn()
+//mock useCart hook
+jest.mock("../../hooks/useCart", () => ({
+  useCart: () => ({
+    products: [],
+    addProduct: mockAddProduct,
+    removeProduct: jest.fn(),
+    clearCart: jest.fn(),
+  }),
+}))
 describe("<Cart />", () => {
   afterEach(() => cleanup)
   test("Should render", () => {
-    const addToCart = jest.fn()
-    render(<Products products={mockProducts} handleAddToCart={addToCart} />)
+    render(<Products products={mockProducts} />)
   })
   test("Should display image of product with attribute src, title", () => {
-    const addToCart = jest.fn()
-    render(<Products products={mockProducts} handleAddToCart={addToCart} />)
+    render(<Products products={mockProducts} />)
     const images = screen.getAllByRole("img")
     images.forEach((image, index) => {
       const expectedAttributeSrc = mockProducts[index].image
@@ -20,8 +29,7 @@ describe("<Cart />", () => {
     })
   })
   test("Should display title of product and price", () => {
-    const addToCart = jest.fn()
-    render(<Products products={mockProducts} handleAddToCart={addToCart} />)
+    render(<Products products={mockProducts} />)
     const titles = screen.getAllByRole("heading")
     const prices = screen.getAllByRole("textbox")
 
@@ -35,13 +43,12 @@ describe("<Cart />", () => {
     })
   })
   test("Should display button by add to cart and when clicked should call addToCart", async () => {
-    const addToCart = jest.fn()
-    render(<Products products={mockProducts} handleAddToCart={addToCart} />)
+    render(<Products products={mockProducts} />)
     const buttonAddToCart = screen.getAllByTestId("add-to-cart")
     buttonAddToCart.forEach(async (button) => {
       await fireEvent.click(button)
       expect(button).toBeInTheDocument()
-      expect(addToCart).toHaveBeenCalledTimes(1)
+      expect(mockAddProduct).toHaveBeenCalledTimes(1)
     })
   })
 })
