@@ -1,6 +1,6 @@
 import { Product } from "../../constants/type.td"
 import "./product.css"
-import { AddToCart } from "../icons/Icons"
+import { AddToCart, RemoveCart } from "../icons/Icons"
 import { useCart } from "../../hooks/useCart"
 
 interface ProductsProps {
@@ -8,7 +8,7 @@ interface ProductsProps {
 }
 
 export function Products({ products }: ProductsProps) {
-  const { addProduct } = useCart()
+  const { addProduct, removeProduct } = useCart()
   return (
     <main>
       <ul className="product__list">
@@ -33,6 +33,16 @@ export function Products({ products }: ProductsProps) {
                 data-testid="add-to-cart"
               >
                 <AddToCart />
+              </button>
+              <button
+                onClick={() => {
+                  const productRemove = { ...product, quantity: 1 }
+                  removeProduct(productRemove)
+                }}
+                className="product__add"
+                data-testid="remove-from-cart"
+              >
+                <RemoveCart />
               </button>
             </li>
           ))

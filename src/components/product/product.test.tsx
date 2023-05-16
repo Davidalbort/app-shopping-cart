@@ -1,20 +1,21 @@
 import { cleanup, render, screen } from "@testing-library/react"
 import fireEvent from "@testing-library/user-event"
-import { Products } from "./Product"
+import { Products } from "./Products"
 
-//mock method like a function of useCart hook
 const mockAddProduct = jest.fn()
-//mock useCart hook
+const mockRemoveProduct = jest.fn()
 jest.mock("../../hooks/useCart", () => ({
   useCart: () => ({
     products: [],
     addProduct: mockAddProduct,
-    removeProduct: jest.fn(),
-    clearCart: jest.fn(),
+    removeProduct: mockRemoveProduct,
   }),
 }))
-describe("<Cart />", () => {
-  afterEach(() => cleanup)
+describe("<Products />", () => {
+  afterEach(() => {
+    cleanup
+    jest.clearAllMocks()
+  })
   test("Should render", () => {
     render(<Products products={mockProducts} />)
   })
@@ -44,12 +45,19 @@ describe("<Cart />", () => {
   })
   test("Should display button by add to cart and when clicked should call addToCart", async () => {
     render(<Products products={mockProducts} />)
-    const buttonAddToCart = screen.getAllByTestId("add-to-cart")
-    buttonAddToCart.forEach(async (button) => {
-      await fireEvent.click(button)
-      expect(button).toBeInTheDocument()
-      expect(mockAddProduct).toHaveBeenCalledTimes(1)
-    })
+    const buttonAddToCart = screen.getByTestId("add-to-cart")
+    expect(buttonAddToCart).toBeInTheDocument()
+    await fireEvent.click(buttonAddToCart)
+    expect(mockAddProduct).toHaveBeenCalledTimes(1)
+    expect(mockRemoveProduct).not.toBeCalled()
+  })
+  test("Should display button by remove from cart and when clicked should call removeFromCart", async () => {
+    render(<Products products={mockProducts} />)
+    const buttonRemoveFromCart = screen.getByTestId("remove-from-cart")
+    expect(buttonRemoveFromCart).toBeInTheDocument()
+    await fireEvent.click(buttonRemoveFromCart)
+    expect(mockAddProduct).not.toBeCalled
+    expect(mockRemoveProduct).toHaveBeenCalledTimes(1)
   })
 })
 
@@ -62,14 +70,5 @@ export const mockProducts = [
     price: 30,
     category: "home-decoration",
     image: "https://i.dummyjson.com/data/products/30/thumbnail.jpg",
-  },
-  {
-    id: 6,
-    title: "MacBook Pro",
-    description:
-      "MacBook Pro 2021 with mini-LED display may launch between September, November",
-    price: 1749,
-    category: "laptops",
-    image: "https://i.dummyjson.com/data/products/6/thumbnail.png",
   },
 ]
