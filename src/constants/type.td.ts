@@ -20,3 +20,14 @@ export interface Product {
   category: string
   image: string
 }
+
+export interface CartProduct extends Product {
+  quantity: number
+}
+
+export interface CartContextState {
+  products: CartProduct[]
+  addProduct(product: CartProduct): void
+  removeProduct(product: CartProduct): void
+  resetProducts(): void
+}

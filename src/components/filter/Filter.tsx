@@ -13,7 +13,6 @@ export function Filter() {
     const newPrice = parseInt(event.target.value)
     updatePrice(newPrice)
   }
-  console.log(filters)
   return (
     <section className="filter">
       <label htmlFor="price" className="font-m color-white">

@@ -34,4 +34,17 @@ describe("<App />", () => {
     const productSmartPhones = screen.getAllByRole("listitem")
     expect(productSmartPhones.length).toBeGreaterThan(4)
   })
+  test("Should open cart when click on button cart and close when click again on button cart", async () => {
+    render(
+      <FilterProvider>
+        <App />
+      </FilterProvider>
+    )
+    const buttonCart = screen.getByRole("button", { name: "Cart" })
+    await fireEvent.click(buttonCart)
+    const cart = screen.getByRole("heading", { name: "Cart" })
+    expect(cart).toBeInTheDocument()
+    await fireEvent.click(buttonCart)
+    expect(cart).not.toBeInTheDocument()
+  })
 })
