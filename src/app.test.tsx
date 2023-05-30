@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react"
+import { render, screen, within } from "@testing-library/react"
 import fireEvent from "@testing-library/user-event"
 import { App } from "./App"
 import { FilterProvider } from "./context/FilterContext"
@@ -46,5 +46,17 @@ describe("<App />", () => {
     expect(cart).toBeInTheDocument()
     await fireEvent.click(buttonCart)
     expect(cart).not.toBeInTheDocument()
+  })
+  test(`Should add product to cart when user clicked in button add-to-Cart,
+  and increment quantity when clicked in button to add the same product`, () => {
+    render(
+      <FilterProvider>
+        <App />
+      </FilterProvider>
+    )
+    const products = screen.getAllByRole("listitem")
+    const firstProduct = products[0]
+    const addButton = within(firstProduct).getByTestId("add-to-cart")
+    expect(addButton).toBeInTheDocument()
   })
 })

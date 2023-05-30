@@ -1,12 +1,14 @@
 import { render, screen } from "@testing-library/react"
+import fireEvent from "@testing-library/user-event"
 import "@testing-library/jest-dom"
 import { Cart } from "./Cart"
 
 // Mock the custom hook useCart
+const mockAddProduct = jest.fn()
 jest.mock("../../hooks/useCart", () => ({
   useCart: () => ({
     products: mockProductsAdd,
-    addProduct: jest.fn(),
+    addProduct: mockAddProduct,
     removeProduct: jest.fn(),
     resetProducts: jest.fn(),
   }),
@@ -18,11 +20,19 @@ describe("<Cart/>", () => {
     const title = screen.getByRole("heading", { name: /Cart/i })
     expect(title).toBeInTheDocument()
   })
-})
-test("Should show products that was added", () => {
-  render(<Cart />)
-  const products = screen.getAllByRole("listitem")
-  expect(products).toHaveLength(2)
+  test("Should show products that was added", () => {
+    render(<Cart />)
+    const products = screen.getAllByRole("listitem")
+    const lengthMockProducts = mockProductsAdd.length
+    expect(products).toHaveLength(lengthMockProducts)
+  })
+  test("Should call addProduct when user clicked button add", async () => {
+    render(<Cart />)
+    const addButton = screen.getByTestId("add-to-cart")
+    expect(addButton)
+    await fireEvent.click(addButton)
+    expect(mockAddProduct).toBeCalledTimes(1)
+  })
 })
 
 export const mockProductsAdd = [
@@ -34,16 +44,6 @@ export const mockProductsAdd = [
     price: 30,
     category: "home-decoration",
     image: "https://i.dummyjson.com/data/products/30/thumbnail.jpg",
-    quantity: 1,
-  },
-  {
-    id: 6,
-    title: "MacBook Pro",
-    description:
-      "MacBook Pro 2021 with mini-LED display may launch between September, November",
-    price: 1749,
-    category: "laptops",
-    image: "https://i.dummyjson.com/data/products/6/thumbnail.png",
     quantity: 1,
   },
 ]
