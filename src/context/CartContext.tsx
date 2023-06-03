@@ -1,6 +1,6 @@
 import { createContext, useReducer } from "react"
 import { CartContextState, CartProduct } from "../constants/type.td"
-import { cartReducer } from "../reducer/cart"
+import { cartInitialState, cartReducer } from "../reducer/cart"
 
 interface CartProviderProps {
   children: React.ReactNode
@@ -9,7 +9,7 @@ interface CartProviderProps {
 export const CartContext = createContext({} as CartContextState)
 
 export const CartProvider = ({ children }: CartProviderProps) => {
-  const [products, dispatch] = useReducer(cartReducer, [])
+  const [products, dispatch] = useReducer(cartReducer, cartInitialState)
   const addProducts = (product: CartProduct) => {
     dispatch({
       type: "@cart/ADD_PRODUCT",

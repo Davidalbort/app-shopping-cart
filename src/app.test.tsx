@@ -48,7 +48,7 @@ describe("<App />", () => {
     expect(cart).not.toBeInTheDocument()
   })
   test(`Should add product to cart when user clicked in button add-to-Cart,
-  and increment quantity when clicked in button to add the same product`, () => {
+  and increment quantity when clicked in button to add the same product`, async () => {
     render(
       <FilterProvider>
         <App />
@@ -57,6 +57,8 @@ describe("<App />", () => {
     const products = screen.getAllByRole("listitem")
     const firstProduct = products[0]
     const addButton = within(firstProduct).getByTestId("add-to-cart")
-    expect(addButton).toBeInTheDocument()
+    await fireEvent.click(addButton)
+    const buttonCart = screen.getByRole("button", { name: "Cart" })
+    await fireEvent.click(buttonCart)
   })
 })
